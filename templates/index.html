@@ -1,0 +1,319 @@
+<!--<!DOCTYPE html>-->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给最爱的你 - 情人节快乐</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- 添加额外的字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <style>
+        /* 消息样式优化 */
+        .message-container {
+            position: relative;
+            padding: 20px;
+            margin-bottom: 20px;
+            line-height: 2;
+            text-align: justify;
+        }
+
+        .message-text {
+            position: relative;
+            font-size: 1.2em;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* 重要文字样式 */
+        .highlight {
+            color: #FF1493;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        /* 引用样式 */
+        .quote {
+            border-left: 4px solid #FF69B4;
+            padding-left: 15px;
+            margin: 15px 0;
+            font-style: italic;
+        }
+
+        /* 签名样式 */
+        .signature {
+            font-family: 'Ma Shan Zheng', cursive;
+            text-align: right;
+            font-size: 1.4em;
+            margin-top: 20px;
+            color: #FF1493;
+        }
+
+        /* 消息切换动画优化 */
+        .fade-enter {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .fade-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        /* 适配手机屏幕 */
+        @media (max-width: 768px) {
+            .message-text {
+                font-size: 1.1em;
+            }
+
+            .highlight {
+                font-size: 1.2em;
+            }
+        }
+
+        /* 装饰元素 */
+        .decorator {
+            position: absolute;
+            font-size: 2em;
+            opacity: 0.1;
+            user-select: none;
+        }
+
+        .decorator-top-left {
+            top: 0;
+            left: 0;
+        }
+
+        .decorator-bottom-right {
+            bottom: 0;
+            right: 0;
+        }
+
+        .dialogue {
+    margin-bottom: 25px;
+}
+
+.question {
+    color: #FF69B4;
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.answer {
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.8;
+}
+
+.answer-continue {
+    color: #333;
+    margin-left: 20px;
+    line-height: 1.8;
+}
+
+.name {
+    color: #FF1493;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.final-message {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.final-message .highlight {
+    font-size: 1.5em;
+    color: #FF1493;
+    margin-bottom: 20px;
+}
+
+.signature {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 1.3em;
+    color: #FF69B4;
+    margin-top: 15px;
+}
+
+/* 添加一些动画效果 */
+.dialogue {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+    </style>
+</head>
+<body>
+   <!-- 背景心形动画 -->
+<div class="heart-bg"></div>
+
+    <!-- 主要内容容器 -->
+    <div class="container">
+        <div class="letter">
+            <h1 class="title typing">亲爱的宝贝:</h1>
+            <div class="content fade-in"></div>
+            <!-- 新增的 -->
+            <div class="message-container">
+                    <div class="decorator decorator-top-left">❤</div>
+                    <div class="message-text"></div>
+                    <div class="decorator decorator-bottom-right">❤</div>
+                </div>
+            </div>
+
+            <button class="next-btn" onclick="showNextMessage()">下一页 ❤</button>
+        </div>
+    </div>
+
+    <!-- 背景音乐 -->
+    <div class="music-control">
+        <audio id="bgMusic" loop>
+            <source src="{{ url_for('static', filename='music/love_song.mp3') }}" type="audio/mp3">
+        </audio>
+        <button onclick="toggleMusic()" id="musicBtn">🎵</button>
+    </div>
+
+    <!-- 消息数据 -->
+
+<script>
+        const messages = [
+        `<div class="dialogue">
+            <p class="question">宝宝: 说说你印象最深的事和话</p>
+            <p class="answer"><span class="name">璟:</span> 与你在一起的每一刻都值得珍藏，就像此刻我为你写下的每一个字，都饱含着我对你的爱意。</p>
+         </div>`,
+
+        `<div class="dialogue">
+            <p class="question">宝宝: 你感觉最幸福的瞬间是什么</p>
+            <p class="answer"><span class="name">璟:</span> 每一次与你相拥的瞬间，感受着你的体温，听着你的心跳，那种幸福无法用语言形容。</p>
+            <p class="answer-continue">在你身边的每分每秒，都是上天给我最好的礼物。</p>
+         </div>`,
+
+        `<div class="dialogue">
+            <p class="question">宝宝: 你在什么时候最生气</p>
+            <p class="answer"><span class="name">璟:</span> 记得最初和你聊天时，我们之间有些误解和争执。但随着深入了解，我发现你所有的建议和关心都是为了让我变得更好。</p>
+            <p class="answer-continue">现在想来，那些小争执反而让我们的感情更加深厚。硬要说，可能也就是说我需要洗把脸冷静一下那次了。</p>
+         </div>`,
+
+        `<div class="dialogue">
+            <p class="question">宝宝: 你什么时候最害怕</p>
+            <p class="answer"><span class="name">璟:</span> 大概是宝宝每一次说对我很失望，想分手的时候了，我的心就会揪痛。</p>
+         </div>`,
+
+        `<div class="dialogue">
+            <p class="question">宝宝: 你什么时候最委屈</p>
+            <p class="answer"><span class="name">璟:</span> 总是弄巧成拙的时候可能就最委屈了。比如我跟宝宝那次做菜因为事情比较忙，宝宝让我换一下做事顺序的时候，我心里当时又无奈又委屈。</p>
+            <p class="answer-continue">觉得宝宝其实可以在我事情做完之后再跟我说，而不是在我事情已经很多的时候，忙不来的时候还在说我得不是，即使宝宝是正确的。</p>
+         </div>`,
+
+        `<div class="dialogue">
+            <p class="question">宝宝: 你什么时候最爱我</p>
+            <p class="answer"><span class="name">璟:</span> 我不想去回想，因为每次去回忆，我都会忍不住哭，因为我太幸福了。每天清晨睁开眼看到你的那一刻，我都会感激生命中有你的存在。</p>
+            <p class="answer-continue highlight">不是某一个特定的时刻最爱你，而是每一分每一秒都在更爱你。</p>
+         </div>`,
+
+        `<div class="dialogue">
+            <p class="question">宝宝: 我最爱你的时候</p>
+            <p class="answer"><span class="name">璟:</span> 就是现在，此时此刻，当你读到这些文字的时候。而我相信，我们的爱会随着时光流逝愈发浓烈。</p>
+         </div>`,
+
+        `<div class="dialogue">
+            <p class="question">宝宝: 最喜欢的亲密行为</p>
+            <p class="answer"><span class="name">璟:</span> 最爱与你相拥，轻轻地亲吻你。在这样温存的时刻里，仿佛整个世界都只剩下我们两个人。</p>
+         </div>`,
+
+        `<div class="final-message">
+            <p class="highlight">永远爱你，情人节快乐！</p>
+            <p class="signature">❤️ 璟 ❤️</p>
+            <p class="signature">❤2025年02月14日❤</p>
+         </div>`
+    ];
+    </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <script>
+        // 鼠标移动效果
+        document.addEventListener('mousemove', (e) => {
+            const letter = document.querySelector('.letter');
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            letter.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        // 触摸设备处理
+        document.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const letter = document.querySelector('.letter');
+            const touch = e.touches[0];
+            const xAxis = (window.innerWidth / 2 - touch.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - touch.pageY) / 25;
+            letter.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        }, { passive: false });
+
+        // 音乐按钮动画
+        let rotation = 0;
+        setInterval(() => {
+            const btn = document.getElementById('musicBtn');
+            if(isPlaying) {
+                rotation += 1;
+                btn.style.transform = `rotate(${rotation}deg)`;
+            }
+        }, 50);
+
+        // 更新showNextMessage函数来处理HTML内容
+        function showNextMessage() {
+            if(currentPage >= messages.length) {
+                showFinalMessage();
+                return;
+            }
+
+            const messageText = document.querySelector('.message-text');
+            messageText.style.opacity = 0;
+            messageText.classList.remove('fade-enter-active');
+            messageText.classList.add('fade-enter');
+
+            setTimeout(() => {
+                messageText.innerHTML = messages[currentPage];
+                messageText.classList.remove('fade-enter');
+                messageText.classList.add('fade-enter-active');
+                messageText.style.opacity = 1;
+                currentPage++;
+
+                // 创建心形效果
+                for(let i = 0; i < 5; i++) {
+                    setTimeout(createFloatingHearts, i * 200);
+                }
+            }, 500);
+        }
+
+        // 更新最终消息显示
+        function showFinalMessage() {
+            const messageText = document.querySelector('.message-text');
+            messageText.innerHTML = `
+                <div style="text-align: center;">
+                    <h2 class="highlight">❤️ 情人节快乐 ❤️</h2>
+                    <p class="quote" style="margin-top: 20px;">愿我们的爱情永远甜蜜浪漫</p>
+                    <p class="signature">永远爱你的我</p>
+                </div>
+            `;
+            document.querySelector('.next-btn').style.display = 'none';
+
+            // 创建更多心形
+            for(let i = 0; i < 20; i++) {
+                setTimeout(createFloatingHearts, i * 100);
+            }
+        }
+    </script>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,210 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', sans-serif;
+    background: #fce4ec;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* 心形背景动画 */
+.heart-bg {
+   position: relative;
+    width: 100px;
+    height: 100px;
+    background: #ff4081;
+    transform: rotate(-45deg); /* 整体旋转 */
+    margin: 50px;
+}
+
+/* 中央大心形 */
+.heart-bg::before,
+.heart-bg::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: #ff4081;
+    border-radius: 50%;
+}
+
+.heart-bg::before {
+    top: -50px; /* 圆心向上移动 */
+    left: 0;
+}
+
+.heart-bg::after {
+   top: 0;
+    left: 50px; /* 圆心向右移动 */
+}
+
+
+/* 浮动的小心形 */
+.floating-heart {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    animation: float-up 4s linear forwards;
+}
+
+.floating-heart::before,
+.floating-heart::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 24px;
+    background: rgba(255, 20, 147, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 15px 15px 0 0;
+}
+
+.floating-heart::before {
+    left: 15px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+.floating-heart::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+
+/* 主容器样式 */
+.container {
+    max-width: 800px;
+    width: 90%;
+    margin: 20px;
+    perspective: 1000px;
+}
+
+/* 信件样式 */
+.letter {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+}
+
+.letter:hover {
+    transform: translateY(-5px);
+}
+
+/* 标题样式 */
+.title {
+    color: #FF1493;
+    margin-bottom: 30px;
+    font-size: 2em;
+    text-align: center;
+}
+
+/* 内容样式 */
+.content {
+    font-size: 1.2em;
+    line-height: 1.8;
+    color: #333;
+    min-height: 100px;
+    margin: 20px 0;
+}
+
+/* 按钮样式 */
+.next-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 30px;
+    background: #FF69B4;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.next-btn:hover {
+    background: #FF1493;
+    transform: scale(1.05);
+}
+
+/* 音乐控制样式 */
+.music-control {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+#musicBtn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #FF69B4;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#musicBtn:hover {
+    transform: scale(1.1);
+}
+
+/* 动画效果 */
+@keyframes float-up {
+    0% {
+        transform: translateY(100vh) rotate(0deg) scale(0.3);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg) scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* 打字效果 */
+.typing {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 3.5s steps(40, end);
+}
+
+/* 渐入效果 */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 2s ease-in forwards;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .letter {
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 1.5em;
+    }
+
+    .content {
+        font-size: 1em;
+    }
+}
